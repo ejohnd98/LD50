@@ -1,0 +1,22 @@
+bullet hell game
+theme: delay the inevitable
+retro pc98 touhou aesthetic?
+
+story:
+	witch of inevitability attacks earth, saying she will accelerate natural process such as the earth dying (due to humans?). says she guarantees these things will happen (put text in red)
+	
+art:
+	don't worry about pixel perfect (not worth it)
+	witch looks something like Bern or Lambda (use witch sprite from vania game as base?)
+	player
+		spaceship (doesn't match aesthetic as well, but easier and fits story)
+		witch (matches look, )
+
+gameplay:
+	endless bullet hell game. boss is at top of screen nearly the whole time, and throws the projectiles:
+	projectile paths:
+		straight down
+		explosion (several move outwards from circle)
+		sin wave downwards
+	checkpoints after certain lengths
+		choose upgrade (movement speed, health, firerate?)
