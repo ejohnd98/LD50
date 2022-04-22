@@ -12,5 +12,7 @@ public class BulletSetting : MonoBehaviour
     public MovementType moveType;
     public float speed;
     public float size;
+    public float effectStrength = 0.5f;
+    public float effectSpeed = 1.0f;
     public bool playerBullet = false;
 }

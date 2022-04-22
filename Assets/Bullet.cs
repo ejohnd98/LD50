@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum MovementType{
     STRAIGHT,
+    SIN,
 
     NONE
 }
@@ -14,7 +15,14 @@ public class Bullet : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Vector2 direction;
     float speed;
+    float effectStrength;
+    float effectSpeed;
+    float moveProgress;
     MovementType movementType;
+
+    Vector2 originalPos;
+    Vector2 moveOffset;
+    Vector2 effectOffset;
 
     private void Awake() {
         circleCollider = GetComponent<CircleCollider2D>();
@@ -27,6 +35,12 @@ public class Bullet : MonoBehaviour
         spriteRenderer.color = setting.color;
         movementType = setting.moveType;
         speed = setting.speed;
+        effectSpeed = setting.effectSpeed;
+        effectStrength = setting.effectStrength;
+        moveProgress = 0.0f;
+        originalPos = transform.position;
+        moveOffset = Vector2.zero;
+        effectOffset = Vector2.zero;
     }
 
     public void SetMovement(Vector2 dir){
@@ -39,16 +53,19 @@ public class Bullet : MonoBehaviour
     }
 
     private void HandleMovement(){
-        Vector3 move = Vector3.zero;
+        Vector2 newMovement = Vector2.zero;
         switch(movementType){
             case MovementType.STRAIGHT:
-                move = direction;
-                break;
-            default:
+                newMovement = direction;
+            break;
+            case MovementType.SIN:
+                newMovement = direction;
+                effectOffset = Vector2.Perpendicular(direction) * effectStrength * EffectValues.GetSin(moveProgress);
+                moveProgress += Time.deltaTime * effectSpeed;
             break;
         }
-
-        transform.position += move * speed * Time.deltaTime;
+        originalPos += newMovement * speed * Time.deltaTime;
+        transform.position = originalPos + moveOffset + effectOffset;
     }
 
     public void DisableBullet(){
