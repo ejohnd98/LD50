@@ -41,4 +41,10 @@ public class BulletPool : MonoBehaviour
 
         return bullet;
     }
+
+    public void ClearBullets(){
+        foreach(GameObject obj in bulletPool){
+            obj.SetActive(false);
+        }
+    }
 }

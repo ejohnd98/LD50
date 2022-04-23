@@ -39,6 +39,7 @@ public class SoundManager : MonoBehaviour
             return;
         }
         musicPlayer.clip = clip;
+        musicPlayer.Stop();
         musicPlayer.Play();
 
     }

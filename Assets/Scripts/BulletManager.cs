@@ -26,6 +26,7 @@ public class BulletManager : MonoBehaviour
         Bullet bullet = obj.GetComponent<Bullet>();
 
         obj.transform.position = position;
+        obj.transform.position += Vector3.forward * 0.5f;
         if(setting.playerBullet){
             obj.tag = "playerBullet";
         }else{
@@ -33,6 +34,10 @@ public class BulletManager : MonoBehaviour
         }
         bullet.SetBullet(setting);
         bullet.SetMovement(dir);
+    }
+
+    public void ClearBullets(){
+        bulletPool.ClearBullets();
     }
 
 }

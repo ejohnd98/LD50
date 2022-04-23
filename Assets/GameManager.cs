@@ -13,8 +13,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject healthPivot;
     public GameObject progressPivot, progressShip, progressShipSpot;
+    public SpriteModifier screenFlash;
 
     public LevelCreator[] levels;
+    public LevelCreator currentLevelClone;
     public int levelIndex = 0;
 
     public Text scoreUI, levelUI;
@@ -42,8 +44,12 @@ public class GameManager : MonoBehaviour
     public void DestroyShip(GameObject ship, bool player = false){
         SoundManager.instance.PlaySound(explosionNoise);
         if(player){
-            //game over
+            FinishLevel(false);
+            StartNextLevel();
         }else{
+            if(ship.GetComponent<Enemy>().isBoss){
+                FinishLevel();
+            }
             AddScore(ship);
             GameObject.Destroy(ship);
         }
@@ -71,9 +77,12 @@ public class GameManager : MonoBehaviour
         scoreUI.text = score.ToString();
     }
 
-    public void FinishLevel(){
-        levels[levelIndex].gameObject.SetActive(false);
-        if(levelIndex + 1 < levels.Length){
+    public void FinishLevel(bool advance = true){
+        currentLevelClone.CleanUp();
+        BulletManager.instance.ClearBullets();
+        screenFlash.CreateDeathSprite();
+        GameObject.Destroy(currentLevelClone.gameObject);
+        if(advance && levelIndex + 1 < levels.Length){
             levelIndex++;
             StartNextLevel();
         }
@@ -85,11 +94,14 @@ public class GameManager : MonoBehaviour
         }
         //update player health
         player.GetComponent<Health>().currentHealth = player.GetComponent<Health>().health;
-
         UpdatePlayerHealth(1,1);
         UpdateProgress(0,1);
-        levels[levelIndex].gameObject.SetActive(true);
-        levels[levelIndex].StartLevel();
+
+        //create level:
+        GameObject newLevel = Instantiate(levels[levelIndex].gameObject, transform);
+        newLevel.SetActive(true);
+        currentLevelClone = newLevel.GetComponent<LevelCreator>();
+        currentLevelClone.StartLevel();
         levelUI.text = (levelIndex+1).ToString();
     }
 }

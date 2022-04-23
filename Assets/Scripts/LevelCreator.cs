@@ -168,4 +168,13 @@ public class LevelCreator : MonoBehaviour
             SoundManager.instance.PlayMusic(levelMusic);
         }
     }
+
+    public void CleanUp(){
+        levelActive = false;
+        foreach(EnemyWave enemy in activeEnemies){
+            enemy.enemy.GetComponent<SpriteModifier>().CreateDeathSprite();
+            GameObject.Destroy(enemy.enemy.gameObject);
+        }
+        activeEnemies.Clear();
+    }
 }

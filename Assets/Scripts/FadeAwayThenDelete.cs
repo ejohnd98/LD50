@@ -16,7 +16,7 @@ public class FadeAwayThenDelete : MonoBehaviour
     private void Update() {
         if(progress < fadeTime){
             progress += Time.deltaTime;
-            spriteColor.a = 1.0f - (progress/fadeTime);
+            spriteColor.a = Easings.EaseInOutQuad(1.0f - (progress/fadeTime));
             spriteRenderer.color = spriteColor;
         }else{
             Destroy(this.gameObject);

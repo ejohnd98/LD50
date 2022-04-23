@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     public float speed = 1.0f;
     public float effectSpeed = 1.0f;
     public float effectStrength = 1.0f;
+    public bool isBoss = false;
 
     float moveAnimCounter = 0.0f;
 
