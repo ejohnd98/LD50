@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
     public int health = 3;
     public int currentHealth;
     public bool enemy = true;
+    public UnityEvent deathEvents;
     bool dead = false;
+    public bool giveScore = true;
     string bulletTag;
 
     SpriteModifier spriteMod;
@@ -40,7 +43,11 @@ public class Health : MonoBehaviour
     }
 
     void Kill(){
+        deathEvents?.Invoke();
         dead = true;
+        if(giveScore){
+            GameManager.instance.AddScore(health);
+        }
         GameManager.instance.DestroyShip(gameObject, !enemy);
     }
 }

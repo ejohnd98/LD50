@@ -11,12 +11,18 @@ public class SpriteModifier : MonoBehaviour
     public bool createEffectAsSibling = false;
     public float fadeTime = 0.4f;
 
+    public bool useDeathEffectForFlash = false;
+
     private void Awake() {
         spriteRenderer = GetComponent<SpriteRenderer>();
         initialMat = spriteRenderer.material;
     }
 
     public void FlashWhite(float time = 0.0875f){
+        if(useDeathEffectForFlash){
+            CreateDeathSprite();
+            return;
+        }
         spriteRenderer.material = whiteMat;
         StartCoroutine(ResetMat(time));
     }

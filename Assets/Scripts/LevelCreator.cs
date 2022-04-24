@@ -42,6 +42,7 @@ public class LevelCreator : MonoBehaviour
     public float levelLength = 60.0f;
     public AudioClip levelMusic;
     public UnityEvent levelStartEvents;
+    public bool hasBoss = true;
     float levelTime = 0.0f;
     
     int enemyIndex = 0;
@@ -77,7 +78,6 @@ public class LevelCreator : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
-
         if(levelActive){
             GameManager.instance.UpdateProgress(levelTime, levelLength);
             while(enemyIndex < enemies.Count && enemies[enemyIndex].entryTime <= levelTime){
@@ -98,7 +98,12 @@ public class LevelCreator : MonoBehaviour
             levelTime += Time.deltaTime;
             if(levelTime >= levelLength){
                 levelActive = false;
-                GameManager.instance.FinishLevel();
+                if(hasBoss){
+                    return;
+                }else{
+                    GameManager.instance.CompleteLevel();
+                }
+                
             }
         }
     }

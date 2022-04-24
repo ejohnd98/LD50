@@ -35,7 +35,7 @@ public class SoundManager : MonoBehaviour
     }
 
     public void PlayMusic(AudioClip clip){
-        if(clip == null){
+        if(clip == null || clip == musicPlayer.clip){
             return;
         }
         musicPlayer.clip = clip;
