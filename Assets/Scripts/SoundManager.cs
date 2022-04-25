@@ -24,7 +24,7 @@ public class SoundManager : MonoBehaviour
         PlaySound(hitSound);
     }
 
-    public void PlaySound(AudioClip clip){
+    public void PlaySound(AudioClip clip, float pitch = 1.0f){
         if(clip == null){
             return;
         }
@@ -32,6 +32,7 @@ public class SoundManager : MonoBehaviour
         AudioSource newSrc = sndObj.GetComponent<AudioSource>();
         newSrc.volume = sfxVolume;
         newSrc.clip = clip;
+        newSrc.pitch = pitch;
     }
 
     public void PlayMusic(AudioClip clip){

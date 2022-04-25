@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour
                 newName += bulletCreator.circlePoints.ToString();
             break;
             case BulletPattern.CIRCLE:
-                newName += "Spin";
+                newName += "CIRCLE";
                 newName += bulletCreator.circlePoints.ToString();
             break;
         }

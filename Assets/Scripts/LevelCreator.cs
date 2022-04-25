@@ -104,10 +104,10 @@ public class LevelCreator : MonoBehaviour
 
             levelTime += Time.deltaTime;
             if(levelTime >= levelLength){
-                levelActive = false;
                 if(hasBoss){
                     return;
                 }else{
+                    levelActive = false;
                     GameManager.instance.CompleteLevel();
                 }
                 

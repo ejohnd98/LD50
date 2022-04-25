@@ -62,7 +62,8 @@ public class BulletCreator : MonoBehaviour
             if(burstCounter <= 0.0f){
                 CreateBurst();
                 if(playForEachBullet || burstIndex == 0){
-                    SoundManager.instance.PlaySound(bulletSound);
+                    float pitch = 1.0f - Mathf.Min((bulletSettings.size - 0.5f), 0.3f);
+                    SoundManager.instance.PlaySound(bulletSound, pitch);
                 }
                 burstIndex++;
                 burstCounter = burstDelay;

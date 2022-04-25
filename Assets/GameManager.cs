@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public LevelCreator[] levels;
     public LevelCreator currentLevelClone;
+
+    public SpriteModifier healthSpriteMod;
     public int levelIndex = 0;
     public int levelsCompleted = 0;
     public bool disableSaving = false;
@@ -63,6 +65,9 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePlayerHealth(int current, int max){
         float fraction = (float)current/(float)max;
+        if(fraction < 0.99f){
+            healthSpriteMod.FlashWhite();
+        }
         EffectsController.instance.SetPassiveCA(1.0f - fraction);
         Vector3 newScale = Vector3.one;
         newScale.y = fraction;
@@ -85,7 +90,7 @@ public class GameManager : MonoBehaviour
 
     public void CompleteLevel(){
         levelsCompleted = Mathf.Max(levelIndex, levelsCompleted);
-        levelScores[levelIndex-1] = Mathf.Max(levelScores[levelIndex], score);
+        levelScores[levelIndex-1] = Mathf.Max(levelScores[levelIndex-1], score);
         StartLevel(0);
     }
 
