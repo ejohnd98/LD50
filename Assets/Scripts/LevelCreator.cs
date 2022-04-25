@@ -65,6 +65,13 @@ public class LevelCreator : MonoBehaviour
                 if(offset != null){
                     timeOffset = offset.timeOffset;
                 }
+                if(offset.skipWave){
+                    childObj.gameObject.SetActive(false);
+                    continue;
+                }
+                if(offset.skipToWave){
+                    timeOffset = 0;
+                }
                 for(int j = 0; j < childObj.childCount; j++){
                     if(childObj.GetChild(j).GetComponent<Enemy>() != null){
                         enemies.Add(new EnemyWave(childObj.GetChild(j).gameObject, timeOffset));
@@ -160,6 +167,7 @@ public class LevelCreator : MonoBehaviour
                 enemy.entryB = enemy.enemy.transform.position;
                 enemy.entryCounter = 0.0f;
                 enemy.enemy.GetComponent<Enemy>().SetMoving(false);
+                enemy.enemy.GetComponent<Enemy>().StopShooting();
             }else{
                 enemy.activeCounter += Time.deltaTime;
             }

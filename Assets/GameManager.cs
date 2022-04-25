@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public bool disableSaving = false;
 
     public GameObject[] LevelButtons;
+    public Text[] LevelScoreTexts;
+    public int[] levelScores;
 
     public Text scoreUI, levelUI;
 
@@ -35,13 +37,14 @@ public class GameManager : MonoBehaviour
         foreach(LevelCreator lvl in levels){
             lvl.gameObject.SetActive(false);
         }
+        levelScores = new int[3];
     }
 
     private void Start() {
         if (!disableSaving){
             LoadGame();
         }
-        scoreUI.text = score.ToString();
+        scoreUI.text = "-";
         levelUI.text = "-";
         StartLevel(0);
     }
@@ -82,6 +85,7 @@ public class GameManager : MonoBehaviour
 
     public void CompleteLevel(){
         levelsCompleted = Mathf.Max(levelIndex, levelsCompleted);
+        levelScores[levelIndex-1] = Mathf.Max(levelScores[levelIndex], score);
         StartLevel(0);
     }
 
@@ -105,6 +109,12 @@ public class GameManager : MonoBehaviour
         player.GetComponent<Health>().currentHealth = player.GetComponent<Health>().health;
         UpdatePlayerHealth(1,1);
         UpdateProgress(0,1);
+        score = 0;
+        if(index == 0){
+            scoreUI.text = "-";
+        }else{
+            scoreUI.text = "0";
+        }
 
         //create level:
         GameObject newLevel = Instantiate(levels[levelIndex].gameObject, transform);
@@ -132,6 +142,11 @@ public class GameManager : MonoBehaviour
                 col.a = 0.2f;
                 LevelButtons[i].GetComponent<BoxCollider2D>().enabled = false;
             }
+            if(levelScores[i] > 0){
+                LevelScoreTexts[i].text = levelScores[i].ToString();
+            }else{
+                LevelScoreTexts[i].text = "";
+            }
             sprRenderer.color = col;
             
         }
@@ -140,12 +155,20 @@ public class GameManager : MonoBehaviour
     public void SaveGame(){
         PlayerPrefs.SetInt("levelsCompleted", levelsCompleted);
         PlayerPrefs.SetInt("score", score);
+
+        PlayerPrefs.SetInt("score1", levelScores[0]);
+        PlayerPrefs.SetInt("score2", levelScores[1]);
+        PlayerPrefs.SetInt("score3", levelScores[2]);
     }
 
     public void LoadGame(){
         if(PlayerPrefs.HasKey("score")){
             levelsCompleted = PlayerPrefs.GetInt("levelsCompleted");
             score = PlayerPrefs.GetInt("score");
+
+            levelScores[0] = PlayerPrefs.GetInt("score1");
+            levelScores[1] = PlayerPrefs.GetInt("score2");
+            levelScores[2] = PlayerPrefs.GetInt("score3");
         }
     }
 }

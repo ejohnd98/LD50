@@ -5,4 +5,5 @@ using UnityEngine;
 public class WaveOffset : MonoBehaviour
 {
     public float timeOffset = 0.0f;
+    public bool skipWave = false, skipToWave = false;
 }
